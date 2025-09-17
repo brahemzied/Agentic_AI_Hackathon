@@ -1,0 +1,12 @@
+ometa_demo:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgres
+      user: dbt
+      password: dbt
+      port: 5432
+      dbname: warehouse
+      schema: analytics
+      threads: 4

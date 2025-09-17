@@ -1,0 +1,22 @@
+-- Create a dedicated dbt role & schema
+CREATE USER dbt WITH PASSWORD 'dbt';
+GRANT CONNECT ON DATABASE warehouse TO dbt;
+GRANT CREATE ON DATABASE warehouse TO dbt
+
+CREATE SCHEMA IF NOT EXISTS analytics AUTHORIZATION dbt;
+GRANT USAGE ON SCHEMA analytics TO dbt;
+GRANT CREATE ON SCHEMA analytics TO dbt;
+
+-- Let dbt read/write in public and analytics schemas
+GRANT USAGE, CREATE ON SCHEMA public TO dbt;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO dbt;
+ALTER DEFAULT PRIVILEGES IN SCHEMA analytics GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO dbt;
+
+-- Sample seed table
+CREATE TABLE IF NOT EXISTS public.orders (
+  id SERIAL PRIMARY KEY,
+  order_ts TIMESTAMP NOT NULL DEFAULT NOW(),
+  amount NUMERIC(10,2) NOT NULL
+);
+
+INSERT INTO public.orders(amount) VALUES (19.99), (42.00), (7.50);

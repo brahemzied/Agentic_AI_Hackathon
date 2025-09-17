@@ -1,0 +1,11 @@
+name: "ometa_demo"
+version: "1.0.0"
+config-version: 2
+
+profile: "ometa_demo"
+
+model-paths: ["models"]
+
+models:
+  ometa_demo:
+    +materialized: view
