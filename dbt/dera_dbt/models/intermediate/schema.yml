@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: int_float_candidates
+    description: " Intermediate model that computes inferred market float values by combining
+      share counts and price per share from the DERA numeric dataset.
+      It joins share and price tags, calculates market float, and selects the
+      most recent relevant record per accession number."
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+      - name: ddate
+        description: "End date for the data value, converted to date."
+      - name: uom
+        description: "Unit of measure for the numeric value."
+      - name: coreg
+        description: "Co-registrant identifier, if applicable."
+      - name: tag
+        description: "Computed tag name for inferred market float (e.g., 'ComputedMarketFloat')."
+      - name: value
+        description: "Computed numeric value for market float (shares_out * price_per_share)."
+      - name: qtrs
+        description: "Number of quarters represented by the value (0 = point-in-time)."
+      - name: srcdir
+        description: "Source indicator (e.g., 'computed')."
+
+  - name: int_float_inferred
+    description: " Combines reported float-related tags from the DERA numeric dataset with
+      computed float candidates from `int_float_candidates`. This model provides
+      a unified view of both reported and inferred float values for downstream
+      analysis."
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+      - name: ddate
+        description: "End date for the data value, converted to date."
+      - name: uom
+        description: "Unit of measure for the numeric value."
+      - name: coreg
+        description: "Co-registrant identifier, if applicable."
+      - name: tag
+        description: "Tag identifying the reported or computed float metric."
+      - name: value
+        description: "Numeric value for the float metric."
+      - name: qtrs
+        description: "Number of quarters represented by the value (0 = point-in-time)."
+      - name: srcdir
+        description: "Source indicator (e.g., 'computed' or original source)."

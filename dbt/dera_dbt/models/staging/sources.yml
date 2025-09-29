@@ -1,0 +1,360 @@
+version: 2
+
+sources:
+  - name: dera
+    database: dera
+    schema: raw_dera            # match your OM URI: ...dera.raw_dera.su
+    tables:
+      - name: sub
+        description: "DERA submissions table (raw) containing summary information about EDGAR filings."
+        config:
+          meta:
+            openmetadata:
+              displayName: "DERA Submissions"
+        columns:
+          - name: adsh
+            description: "Accession Number. 20-character string formed from the 18-digit SEC-assigned number for each submission."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Accession Number"
+          - name: cik
+            description: "Central Index Key (CIK). Ten-digit SEC identifier for each registrant."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "CIK"
+          - name: name
+            description: "Name of the registrant/legal entity as recorded in EDGAR at filing date."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Registrant Name"
+          - name: sic
+            description: "Standard Industrial Classification (SIC). Four-digit code indicating registrant’s business type."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "SIC Code"
+          - name: countryba
+            description: "ISO 3166-1 country code of registrant's business address."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Business Country"
+          - name: stprba
+            description: "State or province of registrant's business address (if US or CA)."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Business State/Province"
+          - name: cityba
+            description: "City of registrant's business address."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Business City"
+          - name: zipba
+            description: "Zip code of registrant's business address."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Business ZIP"
+          - name: bas1
+            description: "First line of registrant's business address street."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Business Address Line 1"
+          - name: bas2
+            description: "Second line of registrant's business address street."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Business Address Line 2"
+          - name: baph
+            description: "Phone number of registrant's business address."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Business Phone"
+          - name: countryma
+            description: "ISO 3166-1 country code of registrant's mailing address."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Mailing Country"
+          - name: stprma
+            description: "State or province of registrant's mailing address (if US or CA)."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Mailing State/Province"
+          - name: cityma
+            description: "City of registrant's mailing address."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Mailing City"
+          - name: zipma
+            description: "Zip code of registrant's mailing address."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Mailing ZIP"
+          - name: mas1
+            description: "First line of registrant's mailing address street."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Mailing Address Line 1"
+          - name: mas2
+            description: "Second line of registrant's mailing address street."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Mailing Address Line 2"
+          - name: countryinc
+            description: "ISO 3166-1 country code of registrant's incorporation."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Incorporation Country"
+          - name: stprinc
+            description: "State or province of incorporation (if US or CA)."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Incorporation State/Province"
+          - name: ein
+            description: "Employee Identification Number, 9-digit US tax ID."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "EIN"
+          - name: former
+            description: "Most recent former name of registrant, if any."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Former Name"
+          - name: changed
+            description: "Date of change from the former name, if any."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Former Name Change Date"
+          - name: afs
+            description: "Filer status with the SEC at the time of submission."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Filer Status"
+          - name: wksi
+            description: "Well Known Seasoned Issuer indicator."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "WKSI Status"
+          - name: fye
+            description: "Fiscal Year End Date, rounded to nearest month-end."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Fiscal Year End"
+          - name: form
+            description: "Submission type of the registrant’s filing."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Form Type"
+          - name: period
+            description: "Balance Sheet Date, rounded to nearest month-end."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Period End Date"
+          - name: fy
+            description: "Fiscal Year Focus as defined in EDGAR XBRL Guide."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Fiscal Year Focus"
+          - name: fp
+            description: "Fiscal Period Focus (FY, Q1, Q2, Q3, Q4)."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Fiscal Period"
+          - name: filed
+            description: "Date of registrant's filing with the SEC."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Filed Date"
+          - name: accepted
+            description: "Acceptance date/time of the filing."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Accepted DateTime"
+          - name: prevrpt
+            description: "TRUE indicates submission was subsequently amended."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Previous Report Flag"
+          - name: detail
+            description: "TRUE if XBRL submission contains quantitative disclosures."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Detailed Submission Flag"
+          - name: instance
+            description: "Name of submitted XBRL instance document."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "XBRL Instance Name"
+          - name: nciks
+            description: "Number of CIKs of registrants included in the filing."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Number of CIKs"
+          - name: aciks
+            description: "Additional CIKs of co-registrants, space-separated."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Additional CIKs"
+
+      - name: tag
+        description: "DERA taxonomy tags table (raw). Standard and custom taxonomy tags from submissions."
+        config:
+          meta:
+            openmetadata:
+              displayName: "DERA Tags"
+        columns:
+          - name: tag
+            description: "Unique identifier for a tag in a specific taxonomy release."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Tag ID"
+          - name: version
+            description: "Taxonomy version for standard tags or accession number for custom tags."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Version"
+          - name: custom
+            description: "Flag for custom tag (1) or standard tag (0)."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Custom Flag"
+          - name: abstract
+            description: "Flag if tag is abstract (1) or not (0)."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Abstract Flag"
+          - name: datatype
+            description: "Data type of the tag (e.g., monetary) if not abstract."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Data Type"
+          - name: iord
+            description: "Indicates point-in-time (I) or duration (D) value."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Instant or Duration"
+          - name: crdr
+            description: "Natural accounting balance for monetary datatype (C=Credit, D=Debit)."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Credit/Debit Flag"
+          - name: tlabel
+            description: "Label text from taxonomy or filer."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Tag Label"
+          - name: doc
+            description: "Detailed definition of the tag."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Tag Definition"
+
+      - name: num
+        description: "DERA numeric facts table (raw). Numeric data per data point in primary financial statements."
+        config:
+          meta:
+            openmetadata:
+              displayName: "DERA Numeric Facts"
+        columns:
+          - name: adsh
+            description: "Accession Number for each EDGAR submission."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Accession Number"
+          - name: tag
+            description: "Tag identifier for a specific taxonomy release."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Tag ID"
+          - name: version
+            description: "Taxonomy version for standard tags or accession number for custom tags."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Version"
+          - name: ddate
+            description: "End date for the data value, rounded to nearest month-end."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Data Date"
+          - name: qtrs
+            description: "Number of quarters represented by the value; 0 indicates point-in-time."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Number of Quarters"
+          - name: uom
+            description: "Unit of measure for the value."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Unit of Measure"
+          - name: segments
+            description: "Tags used to represent axis and member reporting."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Segments"
+          - name: coreg
+            description: "Specific co-registrant or parent company; NULL indicates consolidated entity."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Co-Registrant"
+          - name: value
+            description: "Numeric value from the XBRL instance, up to four decimal digits."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Value"
+          - name: footnote
+            description: "Superscripted footnotes for the value, truncated to 512 characters."
+            config:
+              meta:
+                openmetadata:
+                  displayName: "Footnote"

@@ -1,0 +1,32 @@
+# .dbt/profiles.yml
+dera_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('PGHOST', 'localhost') }}"
+      user: "{{ env_var('PGUSER', 'dbt') }}"
+      password: "{{ env_var('PGPASSWORD', 'dbt') }}"
+      port: "{{ env_var('PGPORT', '5432') | int }}"
+      dbname: "{{ env_var('PGDATABASE', 'dera') }}"
+      schema: "analytics"
+      threads: 4
+
+    # ---- OPTIONAL: BigQuery target (for later) ----
+    # bq_dev:
+    #   type: bigquery
+    #   method: oauth                      # or: service-account-json
+    #   project: "{{ env_var('BQ_PROJECT', 'your-gcp-project') }}"
+    #   dataset: "analytics"
+    #   threads: 4
+    #   # If using service-account-json:
+    #   # keyfile_json:
+    #   #   type: service_account
+    #   #   project_id: "{{ env_var('BQ_PROJECT') }}"
+    #   #   private_key_id: "{{ env_var('BQ_PRIVATE_KEY_ID', '') }}"
+    #   #   private_key: "{{ env_var('BQ_PRIVATE_KEY', '') }}"
+    #   #   client_email: "{{ env_var('BQ_CLIENT_EMAIL', '') }}"
+    #   #   client_id: "{{ env_var('BQ_CLIENT_ID', '') }}"
+    #   #   auth_uri: "https://accounts.google.com/o/oauth2/auth"
+    #   #   token_uri: "https://oauth2.googleapis.com/token"
+    #   #   auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"

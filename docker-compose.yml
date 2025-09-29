@@ -22,9 +22,19 @@ services:
       timeout: 3s
       retries: 20
 
-
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container_dera
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      
   # ---------- dbt runner (connects to Postgres) ----------
-
   dbt:
     build:
       context: ./dbt
@@ -70,7 +80,7 @@ services:
 
   mysql:
     container_name: openmetadata_mysql
-    image: docker.getcollate.io/openmetadata/db:1.9.7
+    image: docker.getcollate.io/openmetadata/db:1.9.11
     command: "--sort_buffer_size=10M"
     restart: always
     environment:
@@ -109,7 +119,7 @@ services:
 
   execute-migrate-all:
     container_name: execute_migrate_all
-    image: docker.getcollate.io/openmetadata/server:1.9.7
+    image: docker.getcollate.io/openmetadata/server:1.9.11
     command: "./bootstrap/openmetadata-ops.sh migrate"
     environment:
       OPENMETADATA_CLUSTER_NAME: ${OPENMETADATA_CLUSTER_NAME:-openmetadata}
@@ -325,7 +335,7 @@ services:
   openmetadata-server:
     container_name: openmetadata_server
     restart: always
-    image: docker.getcollate.io/openmetadata/server:1.9.7
+    image: docker.getcollate.io/openmetadata/server:1.9.11
     environment:
       OPENMETADATA_CLUSTER_NAME: ${OPENMETADATA_CLUSTER_NAME:-openmetadata}
       SERVER_PORT: ${SERVER_PORT:-8585}
@@ -537,7 +547,7 @@ services:
 
   ingestion:
     container_name: openmetadata_ingestion
-    image: docker.getcollate.io/openmetadata/ingestion:1.9.7
+    image: docker.getcollate.io/openmetadata/ingestion:1.9.11
     depends_on:
       elasticsearch:
         condition: service_started
@@ -592,6 +602,24 @@ services:
     # depends_on:
     #   - mcp
     restart: unless-stopped
+
+  metadata_ingestor:
+    build:
+      context: .
+      dockerfile: dockerfile_metadata_ingestor.dockerfile
+    environment:
+      OPENMETADATA_JWT_TOKEN: ${OPENMETADATA_JWT_TOKEN}
+      PGUSER: ${PGUSER}
+      PGPASSWORD: ${PGPASSWORD}
+      PGHOST: postgres
+      PGPORT: ${PGPORT}
+      PGDATABASE: ${PGDATABASE}
+      DB_SERVICE_NAME: ${DB_SERVICE_NAME}
+    volumes:
+      - .:/home/maxmayer/ai_hackathon
+    depends_on:
+      openmetadata-server:
+        condition: service_healthy
 
 volumes:
   ingestion-volume-dag-airflow:
