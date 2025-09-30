@@ -8,7 +8,7 @@ import argparse
 import logging
 import traceback
 from typing import Dict, Any, List, Optional
-
+from dotenv import load_dotenv
 from metadata.ingestion.ometa.ometa_api import OpenMetadata, OpenMetadataConnection
 from metadata.generated.schema.entity.data.glossary import Glossary
 from metadata.generated.schema.entity.data.glossaryTerm import GlossaryTerm
@@ -67,12 +67,12 @@ def load_terms(source: str) -> List[Dict[str, Any]]:
     if not isinstance(data, list):
         raise ValueError("Input JSON must be an array of term objects.")
     return data
-
+load_dotenv()
 # -----------------------
 # OpenMetadata client
 # -----------------------
 def get_om_client() -> OpenMetadata:
-    host_port = os.getenv("OPENMETADATA_HOSTPORT", "http://openmetadata-server:8585/api").rstrip("/")
+    host_port = os.getenv("OPENMETADATA_HOSTPORT", "http://localhost:8585/api").rstrip("/")
     jwt = os.getenv("OPENMETADATA_JWT_TOKEN")
     if not jwt:
         raise EnvironmentError("OPENMETADATA_JWT_TOKEN env var is not set.")

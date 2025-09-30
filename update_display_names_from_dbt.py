@@ -28,7 +28,7 @@ except ImportError:
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Patch OpenMetadata displayName from dbt manifest.json")
     p.add_argument("--host", default=os.getenv("OM_HOST", "http://localhost:8585/api"))
-    p.add_argument("--token", default=os.getenv("OM_TOKEN", ""))
+    p.add_argument("--token", default=os.getenv("OPENMETADATA_JWT_TOKEN", ""))
     p.add_argument("--service", default=os.getenv("OM_SERVICE_NAME", ""))
     p.add_argument("--manifest", default=os.getenv("DBT_MANIFEST_PATH", "./target/manifest.json"))
     p.add_argument("--dry-run", action="store_true")

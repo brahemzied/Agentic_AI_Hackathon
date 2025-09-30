@@ -1,10 +1,12 @@
 source:
   type: postgres
   serviceName: dera-postgres
-  serviceConnection:            # <--- this is the correct key
+  serviceConnection:            
     config:
-      type: Postgres           # must match the connector type
+      type: Postgres           
       username: "${PGUSER}"
+      authType:
+        password: "${PGPASSWORD}" 
       hostPort: "${PGHOST}:${PGPORT}"
       database: "${PGDATABASE}"
   sourceConfig:
@@ -24,7 +26,7 @@ sink:
 
 workflowConfig:
   openMetadataServerConfig:
-    hostPort: http://openmetadata-server:8585/api
+    hostPort: http://localhost:8585/api
     authProvider: openmetadata
     securityConfig:
       jwtToken: "${OPENMETADATA_JWT_TOKEN}"

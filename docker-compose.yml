@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: ${PG_USER:-postgres}
       POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
-      POSTGRES_DB: ${PG_DB:-warehouse}
+      POSTGRES_DB: ${PG_DB:-dera}
     ports:
       - "5432:5432"
     volumes:
@@ -22,17 +22,17 @@ services:
       timeout: 3s
       retries: 20
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_container_dera
-    restart: always
-    ports:
-      - "8888:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin4_container_dera
+  #   restart: always
+  #   ports:
+  #     - "8888:80"
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+  #   volumes:
+  #     - pgadmin-data:/var/lib/pgadmin
       
   # ---------- dbt runner (connects to Postgres) ----------
   dbt:
@@ -603,23 +603,23 @@ services:
     #   - mcp
     restart: unless-stopped
 
-  metadata_ingestor:
-    build:
-      context: .
-      dockerfile: dockerfile_metadata_ingestor.dockerfile
-    environment:
-      OPENMETADATA_JWT_TOKEN: ${OPENMETADATA_JWT_TOKEN}
-      PGUSER: ${PGUSER}
-      PGPASSWORD: ${PGPASSWORD}
-      PGHOST: postgres
-      PGPORT: ${PGPORT}
-      PGDATABASE: ${PGDATABASE}
-      DB_SERVICE_NAME: ${DB_SERVICE_NAME}
-    volumes:
-      - .:/home/maxmayer/ai_hackathon
-    depends_on:
-      openmetadata-server:
-        condition: service_healthy
+  # metadata_ingestor:
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfile_metadata_ingestor.dockerfile
+  #   environment:
+  #     OPENMETADATA_JWT_TOKEN: ${OPENMETADATA_JWT_TOKEN}
+  #     PGUSER: ${PGUSER}
+  #     PGPASSWORD: ${PGPASSWORD}
+  #     PGHOST: postgres
+  #     PGPORT: ${PGPORT}
+  #     PGDATABASE: ${PGDATABASE}
+  #     DB_SERVICE_NAME: ${DB_SERVICE_NAME}
+  #   volumes:
+  #     - .:/home/ziedbrahem/ai_hackathon
+  #   depends_on:
+  #     openmetadata-server:
+  #       condition: service_healthy
 
 volumes:
   ingestion-volume-dag-airflow:
