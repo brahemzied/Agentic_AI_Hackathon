@@ -99,7 +99,7 @@
     "definition": "A four-digit code assigned by the SEC to indicate the type of business of the registrant.\n\nPurpose: Categorizes companies by industry for analysis, search, and reporting.\n\nFormat: 4-digit numeric code.\n\nUsage: Used in industry analysis and regulatory reporting.\n\nExample: '3571' for Electronic Computers.\n\nXBRL Tag: sic",
     "glossary": "Identifiers"
   },
-  {
+  { "tag":"cceew", 
     "label": "CC Exposure (EW)",
     "definition": "Overall climate-change exposure for a firm-year. Construction: (1) Build a climate bigram set C tailored to earnings calls using a keyword-discovery algorithm seeded with unambiguous climate bigrams; (2) For each earnings call transcript of firm i in quarter q, tokenize the full call (management + Q&A) into bigrams and let B_{i,q} be the total number of bigrams; (3) Compute quarterly exposure as CCExposure_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C]; (4) Annualize to firm-year by averaging quarterly values over the year; (5) EW (equal-weighted) means every bigram occurrence contributes equally (no TF-IDF weighting). The metric is a proportion in [0,1] (often reported ×1,000 for readability).",
     "glossary": "Climate & ESG",
@@ -107,114 +107,133 @@
   },
   {
     "label": "CC Risk (EW)",
+    "tag":"", 
     "definition": "Overall climate risk attention. Uses the same climate bigram set C, but conditions on risk/uncertainty context at the sentence level: for each transcript, CCRisk_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C] * 1[b’s sentence contains a risk/uncertainty synonym]. Annual firm-year value is the average across quarterly calls. EW indicates counts are simple frequencies. Captures the second-moment (uncertainty) aspect of climate attention in earnings calls.",
     "glossary": "Climate & ESG",
     "category": "Risk"
   },
   {
     "label": "CC Positive (EW)",
+    "tag":"", 
     "definition": "Overall positive climate sentiment. Uses C and the Loughran–McDonald tone dictionary: for each transcript, CCPos_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C] * 1[b’s sentence contains any positive tone word]. Average quarterly values to the firm-year. EW means simple frequency weighting. Measures how often climate-related talk is framed positively.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "CC Negative (EW)",
+    "tag":"", 
     "definition": "Overall negative climate sentiment. For each transcript, CCNeg_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C] * 1[b’s sentence contains any negative tone word] using the Loughran–McDonald dictionary; annualize by averaging across quarters. EW = equal-weighted counts. Indicates the share of climate talk framed negatively.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "CC Sentiment (EW)",
+    "tag":"", 
     "definition": "Net overall climate sentiment. Combines positive and negative signals in one score: for each transcript, CCSent_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C] * T(b), where T(b)=+1 if the sentence has a positive tone word, −1 if it has a negative tone word, and 0 otherwise; then average over the year. EW indicates no TF-IDF reweighting. Positive values mean climate talk is, on balance, positive; negative values indicate the opposite.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Opportunity Exposure (EW)",
+    "tag":"", 
     "definition": "Climate opportunity exposure (technologies, markets, products). Construction mirrors CC Exposure but replaces C with C_Opp, a topic bigram set learned by running the discovery algorithm with opportunity seeds and removing overlaps with other topics. For each transcript: OppExposure_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp]; average across quarters for the year. EW = equal counts per occurrence.",
     "glossary": "Climate & ESG",
     "category": "Exposure"
   },
   {
     "label": "Opportunity Risk (EW)",
+    "tag":"", 
     "definition": "Uncertainty around climate opportunities. Uses C_Opp and the risk/uncertainty condition: OppRisk_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp] * 1[b’s sentence contains a risk/uncertainty synonym]; average across quarters to firm-year. EW indicates simple occurrence counts. Higher values suggest the firm’s opportunity-related climate discussion carries greater uncertainty.",
     "glossary": "Climate & ESG",
     "category": "Risk"
   },
   {
     "label": "Opportunity Positive (EW)",
+    "tag":"", 
     "definition": "Positive sentiment around climate opportunities. Using C_Opp and Loughran–McDonald positive words: OppPos_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp] * 1[b’s sentence contains any positive tone word]; annualized by averaging quarterly values. EW weighting.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Opportunity Negative (EW)",
+    "tag":"", 
     "definition": "Negative sentiment around climate opportunities. OppNeg_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp] * 1[b’s sentence contains any negative tone word]; average over quarters to firm-year. EW = equal-weighted counts.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Opportunity Sentiment (EW)",
+    "tag":"", 
     "definition": "Net sentiment on climate opportunities. OppSent_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp] * T(b), with T(b)=+1 for positive tone, −1 for negative, else 0; annual value is the average across quarters. EW indicates no reweighting. Positive values imply opportunity discussions skew optimistic.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Regulatory Exposure (EW)",
+    "tag":"", 
     "definition": "Exposure to climate policy and regulation (e.g., carbon taxes, emissions markets, environmental standards). Replace C with the topic bigram set C_Reg (built via topic-specific seeds and de-overlapped). For each transcript: RegExposure_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg]; average quarterly values to firm-year. EW indicates equal-weighted frequencies.",
     "glossary": "Climate & ESG",
     "category": "Exposure"
   },
   {
     "label": "Regulatory Risk (EW)",
+    "tag":"", 
     "definition": "Uncertainty related to climate regulation. Using C_Reg: RegRisk_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg] * 1[b’s sentence contains a risk/uncertainty synonym]; average across the year. EW indicates simple frequency counts. Higher values indicate more emphasis on regulatory uncertainty during calls.",
     "glossary": "Climate & ESG",
     "category": "Risk"
   },
   {
     "label": "Regulatory Positive (EW)",
+    "tag":"", 
     "definition": "Positive framing of climate regulatory topics. RegPos_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg] * 1[b’s sentence contains any positive tone word]; average quarterly to firm-year. EW = equal-weighted counts.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Regulatory Negative (EW)",
+    "tag":"", 
     "definition": "Negative framing of climate regulatory topics. RegNeg_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg] * 1[b’s sentence contains any negative tone word]; annualized by averaging quarterly values. EW weighting.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Regulatory Sentiment (EW)",
+    "tag":"", 
     "definition": "Net sentiment for climate regulation. RegSent_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg] * T(b), with T(b)=+1 (positive tone), −1 (negative tone), else 0; average over quarters for the year. EW indicates equal weighting across occurrences.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Physical Exposure (EW)",
+    "tag":"", 
     "definition": "Exposure to physical climate shocks (storms, heat, flooding, sea-level, etc.). Replace C with C_Phy, a physical-climate bigram set learned from topic seeds with overlaps removed. For each transcript: PhyExposure_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy]; average quarterly values to firm-year. EW = equal-weighted bigram frequencies.",
     "glossary": "Climate & ESG",
     "category": "Exposure"
   },
   {
     "label": "Physical Risk (EW)",
+    "tag":"", 
     "definition": "Uncertainty around physical climate topics. Using C_Phy and sentence-level conditioning: PhyRisk_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy] * 1[b’s sentence contains a risk/uncertainty synonym]; average quarterly to firm-year. EW indicates simple occurrence counts. Highlights how much physical-climate talk is couched in risk terms.",
     "glossary": "Climate & ESG",
     "category": "Risk"
   },
   {
     "label": "Physical Positive (EW)",
+    "tag":"", 
     "definition": "Positive sentiment around physical-climate discussions. PhyPos_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy] * 1[b’s sentence contains any positive tone word]; average across quarters for firm-year. EW weighting.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Physical Negative (EW)",
+    "tag":"", 
     "definition": "Negative sentiment around physical-climate discussions. PhyNeg_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy] * 1[b’s sentence contains any negative tone word]; annualized by averaging quarterly observations. EW = equal-weighted occurrences.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Physical Sentiment (EW)",
+    "tag":"", 
     "definition": "Net sentiment for physical climate topics. PhySent_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy] * T(b), where T(b)=+1 for positive tone, −1 for negative, else 0; firm-year value is the mean of quarterly transcripts. EW implies no TF-IDF reweighting. Positive (negative) values indicate net positive (negative) tilt in physical-climate discourse.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"

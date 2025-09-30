@@ -72,7 +72,7 @@ load_dotenv()
 # OpenMetadata client
 # -----------------------
 def get_om_client() -> OpenMetadata:
-    host_port = os.getenv("OPENMETADATA_HOSTPORT", "http://localhost:8585/api").rstrip("/")
+    host_port = os.getenv("OPENMETADATA_HOST_PORT", "http://localhost:8585/api").rstrip("/")
     jwt = os.getenv("OPENMETADATA_JWT_TOKEN")
     if not jwt:
         raise EnvironmentError("OPENMETADATA_JWT_TOKEN env var is not set.")
