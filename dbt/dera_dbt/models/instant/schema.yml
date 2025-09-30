@@ -1,0 +1,831 @@
+version: 2
+
+models:
+  - name: assets_usd
+    description: "Extracts reported total assets in USD from the DERA numeric dataset for
+      annual filings (10-K, 20-F, 40-F) starting from fiscal year 2014.
+      Filters for point-in-time values (qtrs = 0) and selects the maximum
+      reported value per accession number."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Assets in USD"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (expected to be 'USD')."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure"
+              glossary: []
+
+      - name: assets
+        description: "Maximum reported total assets in USD for the given filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Assets (USD)"
+              glossary: []
+
+  - name: assets_xyz
+    description: "Captures reported total assets in non-USD currencies for annual filings
+      (10-K, 20-F, 40-F) starting from fiscal year 2014. Excludes filings that
+      already have USD-reported assets. Provides the basis for currency
+      conversion in downstream models."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Assets in Non-USD"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (non-USD currency pair)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure (Currency Pair)"
+              glossary: []
+
+      - name: assets
+        description: "Maximum reported total assets in the original currency."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Assets (Original Currency)"
+              glossary: []
+
+  - name: t_a
+    description:  "Produces a unified table of total assets in USD for each registrant and
+      fiscal year. Combines:
+        - Reported USD assets from `assets_usd` (preferred source).
+        - Converted non-USD assets from `assets_xyz` using FX rates from
+          `closing_fx` and `average_fx`.
+      Applies currency conversion logic with fallback to multiple FX sources."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Total Assets (USD)"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported or converted value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: assets_usd
+        description: "Total assets expressed in USD (reported or converted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Assets (USD)"
+              glossary: []
+
+  - name: cash_usd
+    description: "Extracts reported cash and cash equivalents in USD from the DERA numeric dataset
+      for annual filings (10-K, 20-F, 40-F) starting from fiscal year 2014.
+      Filters for point-in-time values (qtrs = 0) and selects the maximum reported value
+      per accession number for relevant cash-related tags."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Cash in USD"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (expected to be 'USD')."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure"
+              glossary: []
+
+      - name: cash
+        description: "Maximum reported cash and cash equivalents in USD for the given filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Cash (USD)"
+              glossary: []
+
+  - name: cash_xyz
+    description: "Captures reported cash and cash equivalents in non-USD currencies for annual filings
+      (10-K, 20-F, 40-F) starting from fiscal year 2014. Excludes filings that already have
+      USD-reported cash values. Provides the basis for currency conversion in downstream models."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Cash in Non-USD"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (non-USD currency pair)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure (Currency Pair)"
+              glossary: []
+
+      - name: cash
+        description: "Maximum reported cash and cash equivalents in the original currency."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Cash (Original Currency)"
+              glossary: []
+
+  - name: t_c
+    description: "Produces a unified table of cash and cash equivalents in USD for each registrant and
+      fiscal year. Combines:
+        - Reported USD cash values from `cash_usd` (preferred source).
+        - Converted non-USD cash values from `cash_xyz` using FX rates from
+          `closing_fx` and `average_fx`.
+      Applies currency conversion logic with fallback to multiple FX sources."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Total Cash (USD)"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+  - name: debt_usd
+    description: "Extracts reported long-term and short-term debt obligations in USD from the DERA numeric dataset
+      for annual filings (10-K, 20-F, 40-F) starting from fiscal year 2014.
+      Filters for point-in-time values (qtrs = 0) and selects the maximum reported value
+      per accession number for relevant debt-related tags."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Debt in USD"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (expected to be 'USD')."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure"
+              glossary: []
+
+      - name: debt
+        description: "Maximum reported debt obligations in USD for the given filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Debt (USD)"
+              glossary: []
+  - name: debt_xyz
+    description: " Captures reported debt obligations in non-USD currencies for annual filings (10-K, 20-F, 40-F) starting from fiscal year 2014. Excludes filings that already have USD-reported debt values. Provides the basis for currency conversion in downstream models."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Debt in Non-USD"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (non-USD currency pair)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure (Currency Pair)"
+              glossary: []
+
+      - name: debt
+        description: "Maximum reported debt obligations in the original currency."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Debt (Original Currency)"
+              glossary: []
+
+  - name: t_d
+    description: " Produces a unified table of debt obligations in USD for each registrant and
+      fiscal year. Combines:
+        - Reported USD debt values from `debt_usd` (preferred source).
+        - Converted non-USD debt values from `debt_xyz` using FX rates from
+          `closing_fx` and `average_fx`.
+      Applies currency conversion logic with fallback to multiple FX sources."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Total Debt (USD)"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported or converted value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: debt_usd
+        description: "Debt obligations expressed in USD (reported or converted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Debt (USD)"
+              glossary: []
+
+  - name: float_usd
+    description: " Extracts reported or computed public float values in USD from the DERA numeric dataset
+      for annual filings (10-K, 20-F, 40-F) starting from fiscal year 2014.
+      Filters for point-in-time values (qtrs = 0) and selects the maximum reported value
+      per accession number for relevant float-related tags."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Float in USD"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (expected to be 'USD')."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure"
+              glossary: []
+
+      - name: float
+        description: "Maximum reported or computed public float in USD for the given filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Float (USD)"
+              glossary: []
+
+  - name: float_xyz
+    description: "Captures reported or computed public float values in non-USD currencies for annual filings
+      (10-K, 20-F, 40-F) starting from fiscal year 2014. Excludes filings that already have
+      USD-reported float values. Provides the basis for currency conversion in downstream models."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Float in Non-USD"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (non-USD currency pair)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure (Currency Pair)"
+              glossary: []
+
+      - name: float
+        description: "Maximum reported or computed public float in the original currency."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Float (Original Currency)"
+              glossary: []
+
+  - name: t_f
+    description: "Produces a unified table of public float values in USD for each registrant and
+      fiscal year. Combines:
+        - Reported or computed USD float values from `float_usd` (preferred source).
+        - Converted non-USD float values from `float_xyz` using FX rates from
+          `closing_fx` and `average_fx`.
+      Applies currency conversion logic with fallback to multiple FX sources."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Total Float (USD)"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported or converted value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: float_usd
+        description: "Public float expressed in USD (reported or converted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Float (USD)"
+              glossary: []

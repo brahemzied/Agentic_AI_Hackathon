@@ -1,0 +1,10 @@
+# secrets & local state
+.env
+.dbt/target/
+dbt/dera_dbt/target/
+dbt/dera_dbt/logs/
+dera_zips/
+seeds/
+docker-volume
+notes
+.venv/

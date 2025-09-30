@@ -1,0 +1,8 @@
+# Core: dbt on Postgres + local loader
+dbt-core==1.9.1
+dbt-postgres==1.9.1
+psycopg2-binary~=2.9
+openmetadata-ingestion[dbt]
+requests
+# Optional (only if you want to push dbt metadata into OpenMetadata from this machine)
+# openmetadata-ingestion[dbt]~=1.5

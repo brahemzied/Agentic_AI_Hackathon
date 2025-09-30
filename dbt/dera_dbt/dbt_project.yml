@@ -1,0 +1,46 @@
+name: "dera_dbt"
+version: "1.0.0"
+profile: "dera_dbt"
+
+model-paths: ["models"]
+seed-paths:  ["seeds"]
+macro-paths: ["macros"]
+test-paths:  ["tests"]
+
+# Default materialization; override per-folder or per-model as needed
+models:
+  dera_dbt:
+    +materialized: view
+    staging:
+      +schema: stg
+    intermediate:
+      +schema: int
+    marts:
+      +schema: marts
+
+# Lean seed configuration
+seeds:
+  dera_dbt:
+    +unlogged: true       # optional, faster inserts and less WAL
+    +quote_columns: false
+    isin_cik:
+      column_types:
+        isin: char(12)
+        cik: char(10)
+    sic_isic:
+      column_types:
+        sic: char(4)
+        isic: char(4)
+    ticker:
+      column_types:
+        tnname: varchar(20)
+        cik: char(10)
+
+# OpenMetadata variables for ingestion
+vars:
+  openmetadata_host_port: "http://localhost:8585/api"
+  openmetadata_jwt_token: "{{ env_var('OPENMETADATA_JWT_TOKEN', '') }}"
+  openmetadata_service_name: "{{ env_var('OPENMETADATA_SERVICE_NAME', 'dera-postgres') }}"
+  openmetadata_dbt_update_descriptions: true
+  openmetadata_dbt_update_owners: true
+  openmetadata_include_tags: true

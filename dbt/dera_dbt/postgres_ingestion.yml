@@ -1,0 +1,35 @@
+source:
+  type: postgres
+  serviceName: dera-postgres
+  serviceConnection:            
+    config:
+      type: Postgres           
+      username: "${PGUSER}"
+      authType:
+        password: "${PGPASSWORD}" 
+      hostPort: "${PGHOST}:${PGPORT}"
+      database: "${PGDATABASE}"
+  sourceConfig:
+    config:
+      type: DatabaseMetadata
+      includeTables: true
+      includeViews: true
+      databaseFilterPattern:
+        includes: [ "dera" ]
+      schemaFilterPattern:
+        includes: [ "raw_dera", "analytics", "analytics_stg", "analytics_int" ]
+
+
+sink:
+  type: metadata-rest
+  config: {}
+
+workflowConfig:
+  openMetadataServerConfig:
+    hostPort: http://localhost:8585/api
+    authProvider: openmetadata
+    securityConfig:
+      jwtToken: "${OPENMETADATA_JWT_TOKEN}"
+
+
+      

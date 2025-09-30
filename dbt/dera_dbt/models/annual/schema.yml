@@ -1,0 +1,288 @@
+version: 2
+
+models:
+  - name: fy_income_usd
+    description: "Extracts reported annual income (Profit/Loss, Net Income, Comprehensive Income)
+      in USD from the DERA numeric dataset for annual filings (10-K, 20-F, 40-F)
+      starting from fiscal year 2014."
+    config:
+      meta:
+        openmetadata:
+          displayName: "FY Income (USD)"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (expected to be 'USD')."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure"
+              glossary: []
+
+      - name: income
+        description: "Maximum reported annual income in USD for the given filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Income (USD)"
+              glossary: []
+
+  - name: fy_income_fx
+    description: " Captures reported annual income in non-USD currencies for annual filings
+      (10-K, 20-F, 40-F) starting from fiscal year 2014. Excludes filings that already
+      have USD-reported income. Provides the basis for currency conversion in downstream models."
+    config:
+      meta:
+        openmetadata:
+          displayName: "FY Income (Non-USD)"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: uom
+        description: "Unit of measure (non-USD currency pair)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Unit of Measure (Currency Pair)"
+              glossary: []
+
+      - name: income
+        description: "Maximum reported annual income in the original currency."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Income (Original Currency)"
+              glossary: []
+
+  - name: t_i
+    description: "Produces a unified table of annual income in USD for each registrant and fiscal year.
+      Combines:
+        - Reported USD income values from `fy_income_usd` (preferred source).
+        - Converted non-USD income values from `fy_income_fx` using FX rates from
+          `closing_fx` and `average_fx`.
+      Applies currency conversion logic with fallback to multiple FX sources."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Total Income (USD)"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported or converted value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: income_usd
+        description: "Annual income expressed in USD (reported or converted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Income (USD)"
+              glossary: []
+
+  - name: t_r
+    description: "Produces a unified table of annual revenue in USD for each registrant and fiscal year.
+      Combines:
+        - Reported USD revenue values from `fy_revenue_usd` (preferred source).
+        - Converted non-USD revenue values from `fy_revenue_xyz` using FX rates from
+          `closing_fx` and `average_fx`.
+      Applies currency conversion logic with fallback to multiple FX sources."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Total Revenue (USD)"
+          glossary: []
+    columns:
+      - name: adsh
+        description: "Accession Number assigned by the SEC to each EDGAR submission."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Accession Number (ADSH)"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: name
+        description: "Name of the registrant as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported or converted value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: revenue_usd
+        description: "Annual revenue expressed in USD (reported or converted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Revenue (USD)"
+              glossary: []

@@ -1,0 +1,260 @@
+
+version: 2
+
+seeds:
+  - name: esg_risk_factors
+    description: "Enriched ESG climate signal panel with CIK attached via ISIN mapping for
+      downstream joins to firm financials (revenue, income, float, etc.). Retains
+      ISIN/GVKEY/CUSIP/HQ country metadata."
+    config:
+      meta:
+        openmetadata:
+          displayName: "ESG Climate Signals (with CIK)"
+          glossary: []
+    columns:
+      - name: isin
+        description: "ISIN used to join to ISIN↔CIK map."
+        config:
+          meta:
+            openmetadata:
+              displayName: "ISIN"
+              glossary: []
+
+      - name: cik
+        description: "Mapped SEC Central Index Key; may be null if no ISIN match."
+        config:
+          meta:
+            openmetadata:
+              displayName: "CIK"
+              glossary: []
+
+      - name: gvkey
+        description: "GVKEY if provided; useful for Compustat merges."
+        config:
+          meta:
+            openmetadata:
+              displayName: "GVKEY"
+              glossary: []
+
+      - name: cusip
+        description: "CUSIP if provided; useful for U.S. security mapping."
+        config:
+          meta:
+            openmetadata:
+              displayName: "CUSIP"
+              glossary: []
+
+      - name: hqcountrycode
+        description: "Headquarters country ISO code."
+        config:
+          meta:
+            openmetadata:
+              displayName: "HQ Country"
+              glossary: []
+
+      - name: year
+        description: "Year of measurement."
+        tests: [not_null]
+        config:
+          meta:
+            openmetadata:
+              displayName: "Year"
+              glossary: []
+
+      # -------------------- Overall (CC) --------------------
+      - name: cc_expo_ew
+        description: "Overall climate-change exposure (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "CC Exposure (EW)"
+              glossary: []
+
+      - name: cc_risk_ew
+        description: "Overall climate risk (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "CC Risk (EW)"
+              glossary: []
+
+      - name: cc_pos_ew
+        description: "Overall positive sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "CC Positive Sentiment (EW)"
+              glossary: []
+
+      - name: cc_neg_ew
+        description: "Overall negative sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "CC Negative Sentiment (EW)"
+              glossary: []
+
+      - name: cc_sent_ew
+        description: "Overall sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "CC Sentiment (EW)"
+              glossary: []
+
+      # -------------------- Opportunity (OP) --------------------
+      - name: op_expo_ew
+        description: "Opportunity exposure (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Opportunity Exposure (EW)"
+              glossary: []
+
+      - name: op_risk_ew
+        description: "Opportunity risk (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Opportunity Risk (EW)"
+              glossary: []
+
+      - name: op_pos_ew
+        description: "Opportunity-positive sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Opportunity Positive (EW)"
+              glossary: []
+
+      - name: op_neg_ew
+        description: "Opportunity-negative sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Opportunity Negative (EW)"
+              glossary: []
+
+      - name: op_sent_ew
+        description: "Aggregate opportunity sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Opportunity Sentiment (EW)"
+              glossary: []
+
+      # -------------------- Regulatory (RG) --------------------
+      - name: rg_expo_ew
+        description: "Regulatory exposure (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Regulatory Exposure (EW)"
+              glossary: []
+
+      - name: rg_risk_ew
+        description: "Regulatory risk (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Regulatory Risk (EW)"
+              glossary: []
+
+      - name: rg_pos_ew
+        description: "Regulatory-positive sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Regulatory Positive (EW)"
+              glossary: []
+
+      - name: rg_neg_ew
+        description: "Regulatory-negative sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Regulatory Negative (EW)"
+              glossary: []
+
+      - name: rg_sent_ew
+        description: "Aggregate regulatory sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Regulatory Sentiment (EW)"
+              glossary: []
+
+      # -------------------- Physical (PH) --------------------
+      - name: ph_expo_ew
+        description: "Physical exposure (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Physical Exposure (EW)"
+              glossary: []
+
+      - name: ph_risk_ew
+        description: "Physical risk (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Physical Risk (EW)"
+              glossary: []
+
+      - name: ph_pos_ew
+        description: "Physical-positive sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Physical Positive (EW)"
+              glossary: []
+
+      - name: ph_neg_ew
+        description: "Physical-negative sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Physical Negative (EW)"
+              glossary: []
+      - name: ph_sent_ew
+        description: "Aggregate physical sentiment (equal-weighted)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Physical Sentiment (EW)"
+              glossary: []                  
+  - name: sic_isic
+    description: "Mapping between SIC and ISIC codes."
+    columns:
+      - name: sic
+        description: "Standard Industrial Classification code."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+      - name: isic
+        description: "International Standard Industrial Classification code."
+        config:
+          meta:
+            openmetadata:
+              displayName: "ISIC Code"
+              glossary: []
+
+  - name: ticker
+    description: "Mapping of company ticker names to their CIK."
+    columns:
+      - name: tnname
+        description: "Ticker name for the company."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Ticker Name"
+              glossary: []
+      - name: cik
+        description: "Central Index Key (CIK) for the company."
+        config:
+          meta:
+            openmetadata:
+              displayName: "CIK"
+              glossary: []

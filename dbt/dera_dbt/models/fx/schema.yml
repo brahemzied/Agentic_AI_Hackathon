@@ -1,0 +1,86 @@
+version: 2
+
+models:
+  - name: average_fx
+    description: "Computes average foreign exchange rates (four-quarter averages) for currency pairs
+      based on DERA numeric data. Converts rates to a normalized format with base currency
+      and provides both `to_usd` and `from_usd` conversion factors."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Average FX Rates"
+          glossary: []
+    columns:
+      - name: base
+        description: "Base currency code (ISO 4217) for the FX rate."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Base Currency"
+              glossary: []
+
+      - name: ddate
+        description: "Date associated with the FX rate (end of the averaging period)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: to_usd
+        description: "Average rate to convert from base currency to USD."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Rate to USD"
+              glossary: []
+
+      - name: from_usd
+        description: "Average rate to convert from USD to base currency."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Rate from USD"
+              glossary: []
+
+  - name: closing_fx
+    description: "Provides closing foreign exchange rates at specific points in time (qtrs = 0)
+      for currency pairs based on DERA numeric data. Includes normalized base currency
+      and conversion factors for both directions."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Closing FX Rates"
+          glossary: []
+    columns:
+      - name: base
+        description: "Base currency code (ISO 4217) for the FX rate."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Base Currency"
+              glossary: []
+
+      - name: ddate
+        description: "Date associated with the FX rate (closing date)."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: to_usd
+        description: "Closing rate to convert from base currency to USD."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Rate to USD"
+              glossary: []
+
+      - name: from_usd
+        description: "Closing rate to convert from USD to base currency."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Rate from USD"
+              glossary: []

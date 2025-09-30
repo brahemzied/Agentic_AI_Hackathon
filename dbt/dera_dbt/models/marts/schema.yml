@@ -1,0 +1,138 @@
+version: 2
+
+models:
+  - name: financials
+    description: "Consolidated financial metrics for each registrant and fiscal year. Combines revenue, income, market float, debt, cash, and assets into a single view. Sources data from t_r (revenue), t_i (income), t_f (float), t_d (debt),  t_c (cash), and t_a (assets)."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Financials Consolidated"
+          glossary: []
+    columns:
+      - name: name
+        description: "Registrant name as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Registrant Name"
+              glossary: []
+
+      - name: cik
+        description: "Central Index Key (CIK) assigned by the SEC to each registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Central Index Key (CIK)"
+              glossary: []
+
+      - name: fy
+        description: "Fiscal year of the filing."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Fiscal Year"
+              glossary: []
+
+      - name: ddate
+        description: "End date for the reported or consolidated metrics."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Data Date"
+              glossary: []
+
+      - name: sic
+        description: "Standard Industrial Classification code of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "SIC Code"
+              glossary: []
+
+      - name: revenue_usd
+        description: "Annual revenue expressed in USD."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Revenue (USD)"
+              glossary: []
+
+      - name: income_usd
+        description: "Annual income expressed in USD."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Income (USD)"
+              glossary: []
+
+      - name: market_cap_usd
+        description: "Market float value expressed in USD."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Market Float (USD)"
+              glossary: []
+
+      - name: debt_usd
+        description: "Total debt expressed in USD."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Debt (USD)"
+              glossary: []
+
+      - name: cash_usd
+        description: "Cash and cash equivalents expressed in USD."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Cash (USD)"
+              glossary: []
+
+      - name: assets_usd
+        description: "Total assets expressed in USD."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Assets (USD)"
+              glossary: []
+
+  - name: float
+    description: "Provides the latest available public float value for each company based on LEI. Selects the most recent float value from int_float_inferred and stg_dera_sub."
+    config:
+      meta:
+        openmetadata:
+          displayName: "Latest Float Value"
+          glossary: []
+    columns:
+      - name: lei
+        description: "Legal Entity Identifier (LEI) of the registrant."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Legal Entity Identifier (LEI)"
+              glossary: []
+
+      - name: company_name
+        description: "Name of the company as recorded in EDGAR."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Company Name"
+              glossary: []
+
+      - name: latest_float_value_usd
+        description: "Most recent public float value expressed in USD."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Latest Float Value (USD)"
+              glossary: []
+
+      - name: last_ddate
+        description: "Date associated with the latest float value."
+        config:
+          meta:
+            openmetadata:
+              displayName: "Last Data Date"
+              glossary: []
