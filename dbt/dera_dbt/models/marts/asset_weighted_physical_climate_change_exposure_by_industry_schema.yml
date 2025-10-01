@@ -1,0 +1,17 @@
+version: 2
+models:
+  - name: asset_weighted_physical_climate_change_exposure_by_industry
+    description: "Asset-weighted physical climate-change exposure by industry (SIC) for 2024. Weighted by each firm's total assets (USD)."
+    config:
+      tags: ['exposure','physical','asset-weighted','climate']
+    columns:
+      - name: industry
+        description: "Standard Industrial Classification (SIC) code for the registrant."
+        tests: [not_null]
+      - name: asset_weighted_physical_exposure
+        description: "Asset-weighted physical climate-change exposure computed as SUM(ph_expo_ew * assets_usd) / SUM(assets_usd)."
+        tests: [not_null]
+      - name: total_assets_usd
+        description: "Sum of assets (USD) used in weighting for the industry."
+      - name: firm_count
+        description: "Number of distinct firms (CIKs) contributing to the industry measurement."
