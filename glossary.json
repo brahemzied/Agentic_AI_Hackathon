@@ -106,136 +106,171 @@
     "category": "Exposure"
   },
   {
+    "tag":"CC_Risk_EW", 
     "label": "CC Risk (EW)",
-    "tag":"", 
     "definition": "Overall climate risk attention. Uses the same climate bigram set C, but conditions on risk/uncertainty context at the sentence level: for each transcript, CCRisk_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C] * 1[b’s sentence contains a risk/uncertainty synonym]. Annual firm-year value is the average across quarterly calls. EW indicates counts are simple frequencies. Captures the second-moment (uncertainty) aspect of climate attention in earnings calls.",
     "glossary": "Climate & ESG",
     "category": "Risk"
   },
   {
+    "tag":"CC_Positive_EW", 
     "label": "CC Positive (EW)",
-    "tag":"", 
     "definition": "Overall positive climate sentiment. Uses C and the Loughran–McDonald tone dictionary: for each transcript, CCPos_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C] * 1[b’s sentence contains any positive tone word]. Average quarterly values to the firm-year. EW means simple frequency weighting. Measures how often climate-related talk is framed positively.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
-    "label": "CC Negative (EW)",
-    "tag":"", 
+    "tag":"CC_Negative_EW",
+    "label": "CC Negative (EW)", 
     "definition": "Overall negative climate sentiment. For each transcript, CCNeg_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C] * 1[b’s sentence contains any negative tone word] using the Loughran–McDonald dictionary; annualize by averaging across quarters. EW = equal-weighted counts. Indicates the share of climate talk framed negatively.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
+    "tag":"CC_Sentiment_EW", 
     "label": "CC Sentiment (EW)",
-    "tag":"", 
     "definition": "Net overall climate sentiment. Combines positive and negative signals in one score: for each transcript, CCSent_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C] * T(b), where T(b)=+1 if the sentence has a positive tone word, −1 if it has a negative tone word, and 0 otherwise; then average over the year. EW indicates no TF-IDF reweighting. Positive values mean climate talk is, on balance, positive; negative values indicate the opposite.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
-    "label": "Opportunity Exposure (EW)",
-    "tag":"", 
+    "tag":"Opportunity_Exposure_EW",
+    "label": "Opportunity Exposure (EW)", 
     "definition": "Climate opportunity exposure (technologies, markets, products). Construction mirrors CC Exposure but replaces C with C_Opp, a topic bigram set learned by running the discovery algorithm with opportunity seeds and removing overlaps with other topics. For each transcript: OppExposure_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp]; average across quarters for the year. EW = equal counts per occurrence.",
     "glossary": "Climate & ESG",
     "category": "Exposure"
   },
   {
+    "tag":"Opportunity_Risk_EW", 
     "label": "Opportunity Risk (EW)",
-    "tag":"", 
     "definition": "Uncertainty around climate opportunities. Uses C_Opp and the risk/uncertainty condition: OppRisk_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp] * 1[b’s sentence contains a risk/uncertainty synonym]; average across quarters to firm-year. EW indicates simple occurrence counts. Higher values suggest the firm’s opportunity-related climate discussion carries greater uncertainty.",
     "glossary": "Climate & ESG",
     "category": "Risk"
   },
   {
+    "tag":"Opportunity_Positive_EW", 
     "label": "Opportunity Positive (EW)",
-    "tag":"", 
     "definition": "Positive sentiment around climate opportunities. Using C_Opp and Loughran–McDonald positive words: OppPos_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp] * 1[b’s sentence contains any positive tone word]; annualized by averaging quarterly values. EW weighting.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Opportunity Negative (EW)",
-    "tag":"", 
+    "tag":"Opportunity_Negative_EW", 
     "definition": "Negative sentiment around climate opportunities. OppNeg_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp] * 1[b’s sentence contains any negative tone word]; average over quarters to firm-year. EW = equal-weighted counts.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Opportunity Sentiment (EW)",
-    "tag":"", 
+    "tag":"Opportunity_Sentiment_EW", 
     "definition": "Net sentiment on climate opportunities. OppSent_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Opp] * T(b), with T(b)=+1 for positive tone, −1 for negative, else 0; annual value is the average across quarters. EW indicates no reweighting. Positive values imply opportunity discussions skew optimistic.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Regulatory Exposure (EW)",
-    "tag":"", 
+    "tag":"Regulatory_Exposure_EW", 
     "definition": "Exposure to climate policy and regulation (e.g., carbon taxes, emissions markets, environmental standards). Replace C with the topic bigram set C_Reg (built via topic-specific seeds and de-overlapped). For each transcript: RegExposure_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg]; average quarterly values to firm-year. EW indicates equal-weighted frequencies.",
     "glossary": "Climate & ESG",
     "category": "Exposure"
   },
   {
     "label": "Regulatory Risk (EW)",
-    "tag":"", 
+    "tag":"Regulatory_Risk_EW", 
     "definition": "Uncertainty related to climate regulation. Using C_Reg: RegRisk_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg] * 1[b’s sentence contains a risk/uncertainty synonym]; average across the year. EW indicates simple frequency counts. Higher values indicate more emphasis on regulatory uncertainty during calls.",
     "glossary": "Climate & ESG",
     "category": "Risk"
   },
   {
     "label": "Regulatory Positive (EW)",
-    "tag":"", 
+    "tag":"Regulatory_Positive_EW", 
     "definition": "Positive framing of climate regulatory topics. RegPos_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg] * 1[b’s sentence contains any positive tone word]; average quarterly to firm-year. EW = equal-weighted counts.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Regulatory Negative (EW)",
-    "tag":"", 
+    "tag":"Regulatory_Negative_EW", 
     "definition": "Negative framing of climate regulatory topics. RegNeg_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg] * 1[b’s sentence contains any negative tone word]; annualized by averaging quarterly values. EW weighting.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Regulatory Sentiment (EW)",
-    "tag":"", 
+    "tag":"Regulatory_Sentiment_EW", 
     "definition": "Net sentiment for climate regulation. RegSent_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Reg] * T(b), with T(b)=+1 (positive tone), −1 (negative tone), else 0; average over quarters for the year. EW indicates equal weighting across occurrences.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Physical Exposure (EW)",
-    "tag":"", 
+    "tag":"Physical_Exposure_EW", 
     "definition": "Exposure to physical climate shocks (storms, heat, flooding, sea-level, etc.). Replace C with C_Phy, a physical-climate bigram set learned from topic seeds with overlaps removed. For each transcript: PhyExposure_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy]; average quarterly values to firm-year. EW = equal-weighted bigram frequencies.",
     "glossary": "Climate & ESG",
     "category": "Exposure"
   },
   {
     "label": "Physical Risk (EW)",
-    "tag":"", 
+    "tag":"Physical_Risk_EW", 
     "definition": "Uncertainty around physical climate topics. Using C_Phy and sentence-level conditioning: PhyRisk_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy] * 1[b’s sentence contains a risk/uncertainty synonym]; average quarterly to firm-year. EW indicates simple occurrence counts. Highlights how much physical-climate talk is couched in risk terms.",
     "glossary": "Climate & ESG",
     "category": "Risk"
   },
   {
     "label": "Physical Positive (EW)",
-    "tag":"", 
+    "tag":"Physical_Positive_EW", 
     "definition": "Positive sentiment around physical-climate discussions. PhyPos_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy] * 1[b’s sentence contains any positive tone word]; average across quarters for firm-year. EW weighting.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Physical Negative (EW)",
-    "tag":"", 
+    "tag":"Physical_Negative_EW", 
     "definition": "Negative sentiment around physical-climate discussions. PhyNeg_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy] * 1[b’s sentence contains any negative tone word]; annualized by averaging quarterly observations. EW = equal-weighted occurrences.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
   },
   {
     "label": "Physical Sentiment (EW)",
-    "tag":"", 
+    "tag":"physical_sentiment_ew", 
     "definition": "Net sentiment for physical climate topics. PhySent_{i,q} = (1/B_{i,q}) * Σ_b 1[b ∈ C_Phy] * T(b), where T(b)=+1 for positive tone, −1 for negative, else 0; firm-year value is the mean of quarterly transcripts. EW implies no TF-IDF reweighting. Positive (negative) values indicate net positive (negative) tilt in physical-climate discourse.",
     "glossary": "Climate & ESG",
     "category": "Sentiment"
+  },
+  {
+    "label": "Profit Margin",
+    "tag": "profit_margin",
+    "definition": "Profit Margin measures how much of a company’s revenue remains as profit after accounting for all expenses. It is calculated as: Profit Margin = Net Income (income_usd) / Revenue (revenue_usd). The resulting ratio expresses profitability as a percentage, indicating how efficiently a company converts revenue into profit. Higher values reflect stronger profitability. Typically measured annually per firm (fiscal year).",
+    "glossary": "Financial KPIs",
+    "category": "Profitability"
+  },
+  {
+    "label": "Return on Assets (ROA)",
+    "tag": "return_on_assets_roa",
+    "definition": "Return on Assets (ROA) measures a company’s ability to generate profit from its total assets. It is calculated as: ROA = Net Income (income_usd) / Total Assets (assets_usd). The ratio indicates how efficiently management is using assets to produce earnings. A higher ROA suggests better asset utilization. Typically reported annually at the firm level.",
+    "glossary": "Financial KPIs",
+    "category": "Profitability"
+  },
+  {
+    "label": "Debt to Assets Ratio",
+    "tag": "debt_to_assets_ratio",
+    "definition": "Debt to Assets Ratio indicates the proportion of a company's total assets that is financed through debt. It is calculated as: Debt to Assets = Total Debt (debt_usd) / Total Assets (assets_usd). This ratio reflects the financial leverage and risk exposure of a firm. A higher ratio implies greater reliance on debt for financing.",
+    "glossary": "Financial KPIs",
+    "category": "Leverage"
+  },
+  {
+    "label": "Market Cap to Revenue",
+    "tag": "market_cap_to_revenue",
+    "definition": "Market Cap to Revenue compares a company’s market valuation to its annual revenue. It is calculated as: Market Cap to Revenue = Market Capitalization (market_cap_usd) / Revenue (revenue_usd). This ratio provides insight into how the market values each unit of revenue. Higher values may indicate growth expectations or overvaluation.",
+    "glossary": "Financial KPIs",
+    "category": "Valuation"
+  },
+  {
+    "label": "Cash Ratio",
+    "tag": "cash_ratio",
+    "definition": "Cash Ratio measures a company’s ability to pay off its short-term liabilities using only its cash and cash equivalents. It is calculated as: Cash Ratio = Cash (cash_usd) / Total Debt (debt_usd). A higher cash ratio indicates stronger liquidity, while very high values may suggest inefficient use of cash resources.",
+    "glossary": "Financial KPIs",
+    "category": "Liquidity"
   }
 ]

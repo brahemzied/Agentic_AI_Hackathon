@@ -14,9 +14,8 @@ seeds:
     columns:
       - name: isin
         description: "ISIN used to join to ISIN↔CIK map."
-        config:
-          meta:
-            openmetadata:
+        meta:
+           openmetadata:
               displayName: "ISIN"
               glossary: []
 
@@ -64,165 +63,146 @@ seeds:
       # -------------------- Overall (CC) --------------------
       - name: cc_expo_ew
         description: "Overall climate-change exposure (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "CC Exposure (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "CC Exposure (EW)"
+            glossary: ["climate_esg.cceew"]
 
       - name: cc_risk_ew
         description: "Overall climate risk (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "CC Risk (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "CC Risk (EW)"
+            glossary: ['climate_esg.cc_risk_ew']
 
       - name: cc_pos_ew
         description: "Overall positive sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "CC Positive Sentiment (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "CC Positive Sentiment (EW)"
+            glossary: ['climate_esg.cc_positive_ew']
 
       - name: cc_neg_ew
         description: "Overall negative sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "CC Negative Sentiment (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "CC Negative Sentiment (EW)"
+            glossary: ['climate_esg.cc_negative_ew']
 
       - name: cc_sent_ew
         description: "Overall sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "CC Sentiment (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "CC Sentiment (EW)"
+            glossary: ['climate_esg.cc_sentiment_ew']
 
       # -------------------- Opportunity (OP) --------------------
       - name: op_expo_ew
         description: "Opportunity exposure (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Opportunity Exposure (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Opportunity Exposure (EW)"
+            glossary: ['climate_esg.opportunity_exposure_ew']
 
       - name: op_risk_ew
         description: "Opportunity risk (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Opportunity Risk (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Opportunity Risk (EW)"
+            glossary: ['climate_esg.opportunity_risk_ew']
 
       - name: op_pos_ew
         description: "Opportunity-positive sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Opportunity Positive (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Opportunity Positive (EW)"
+            glossary: ['climate_esg.opportunity_positive_ew']
 
       - name: op_neg_ew
         description: "Opportunity-negative sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Opportunity Negative (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Opportunity Negative (EW)"
+            glossary: ['climate_esg.opportunity_negative_ew']
 
       - name: op_sent_ew
         description: "Aggregate opportunity sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Opportunity Sentiment (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Opportunity Sentiment (EW)"
+            glossary: ['climate_esg.opportunity_sentiment_ew']
 
       # -------------------- Regulatory (RG) --------------------
       - name: rg_expo_ew
         description: "Regulatory exposure (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Regulatory Exposure (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Regulatory Exposure (EW)"
+            glossary: ['climate_esg.regulatory_exposure_ew']
 
       - name: rg_risk_ew
         description: "Regulatory risk (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Regulatory Risk (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Regulatory Risk (EW)"
+            glossary: ['climate_esg.regulatory_risk_ew']
 
       - name: rg_pos_ew
         description: "Regulatory-positive sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Regulatory Positive (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Regulatory Positive (EW)"
+            glossary: ['climate_esg.regulatory_positive_ew']
 
       - name: rg_neg_ew
         description: "Regulatory-negative sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Regulatory Negative (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Regulatory Negative (EW)"
+            glossary: ['climate_esg.regulatory_negative_ew']
 
       - name: rg_sent_ew
         description: "Aggregate regulatory sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Regulatory Sentiment (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Regulatory Sentiment (EW)"
+            glossary: ['climate_esg.regulatory_sentiment_ew']
 
       # -------------------- Physical (PH) --------------------
       - name: ph_expo_ew
         description: "Physical exposure (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Physical Exposure (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Physical Exposure (EW)"
+            glossary: ['climate_esg.physical_exposure_ew']
 
       - name: ph_risk_ew
         description: "Physical risk (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Physical Risk (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Physical Risk (EW)"
+            glossary: ['climate_esg.physical_risk_ew']
 
       - name: ph_pos_ew
         description: "Physical-positive sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Physical Positive (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Physical Positive (EW)"
+            glossary: ['climate_esg.physical_positive_ew']
 
       - name: ph_neg_ew
         description: "Physical-negative sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Physical Negative (EW)"
-              glossary: []
+        meta:
+          openmetadata:
+            displayName: "Physical Negative (EW)"
+            glossary: ['climate_esg.physical_negative_ew']
+
       - name: ph_sent_ew
         description: "Aggregate physical sentiment (equal-weighted)."
-        config:
-          meta:
-            openmetadata:
-              displayName: "Physical Sentiment (EW)"
-              glossary: []                  
+        meta:
+          openmetadata:
+            displayName: "Physical Sentiment (EW)"
+            glossary: ['climate_esg.physical_sentiment_ew']                  
   - name: sic_isic
     description: "Mapping between SIC and ISIC codes."
     columns:

@@ -7,5 +7,9 @@ profile: "ometa_demo"
 model-paths: ["models"]
 
 models:
-  ometa_demo:
+  dera_dbt:
     +materialized: view
+    staging:
+      +schema: stg
+    intermediate: 
+      + schema
