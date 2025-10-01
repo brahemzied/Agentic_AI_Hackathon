@@ -1,0 +1,22 @@
+# Azure Configuration
+resource_group_name = "rg-rshackathon-team10"
+project_name = "openmetadata-aks"
+location     = "westeurope"
+environment  = "production"
+
+# AKS Configuration
+node_count     = 2
+node_vm_size   = "Standard_D4s_v3"
+node_min_count = 2
+node_max_count = 5
+
+# Container Registry Configuration
+acr_sku = "Basic"
+
+# Kubernetes Configuration
+k8s_namespace = "openmetadata"
+
+# Repository Configuration
+repository_url    = "git@github.com:brahemzied/Agentic_AI_Hackathon.git"
+repository_branch = "QS"
+

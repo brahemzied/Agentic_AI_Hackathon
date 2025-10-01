@@ -28,7 +28,6 @@ services:
     - ./.env:/workspace/.env:ro
     # depends_on:
     #   - mcp
-    restart: unless-stopped
 
   
   postgres:

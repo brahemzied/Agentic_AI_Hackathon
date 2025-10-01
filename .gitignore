@@ -3,8 +3,11 @@
 .dbt/target/
 dbt/dera_dbt/target/
 dbt/dera_dbt/logs/
-dera_zips/
-seeds/
 docker-volume
 notes
 .venv/
+.terraform
+
+# Large data files - stored in Azure Blob Storage instead of Git
+dera_zips/
+# Note: dbt/dera_dbt/seeds/ files are small enough for Git (<75 MB total)
