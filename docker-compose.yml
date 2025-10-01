@@ -18,11 +18,14 @@ services:
       - N8N_BASIC_AUTH_PASSWORD=change_me
       - N8N_SECURE_COOKIE=false
       - TZ=Europe/Paris
+    env_file:
+      - .env      
     volumes:
     - ./dbt:/workspace/dbt:rw
     - ./dbt/dera_dbt:/workspace/dbt/dera_dbt:rw 
     - ./om:/workspace/om:ro   
     - n8n:/home/node/.n8n
+    - ./.env:/workspace/.env:ro
     # depends_on:
     #   - mcp
     restart: unless-stopped

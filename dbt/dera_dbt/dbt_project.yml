@@ -38,7 +38,7 @@ seeds:
 
 # OpenMetadata variables for ingestion
 vars:
-  openmetadata_host_port: "http://localhost:8585/api"
+  openmetadata_host_port: "http://openmetadata-server:8585/api"
   openmetadata_jwt_token: "{{ env_var('OPENMETADATA_JWT_TOKEN', '') }}"
   openmetadata_service_name: "{{ env_var('OPENMETADATA_SERVICE_NAME', 'dera-postgres') }}"
   openmetadata_dbt_update_descriptions: true
