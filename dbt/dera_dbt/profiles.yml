@@ -1,4 +1,4 @@
-ometa_demo:
+dera_dbt:
   target: dev
   outputs:
     dev:
@@ -7,6 +7,6 @@ ometa_demo:
       user: dbt
       password: dbt
       port: 5432
-      dbname: warehouse
+      dbname: dera
       schema: analytics
       threads: 4
