@@ -69,6 +69,17 @@ DDL = {
 
 # -------------------------- DB helpers --------------------------
 
+def ensure_database():
+    # Connect to postgres maintenance DB and create if missing
+    conn = psycopg2.connect(f"host={PG_HOST} port={PG_PORT} dbname=postgres user={PG_USER} password={PG_PASS}")
+    conn.autocommit = True
+    with conn.cursor() as cur:
+        cur.execute(f"SELECT 1 FROM pg_database WHERE datname = %s", (PG_DB,))
+        if not cur.fetchone():
+            cur.execute(f'CREATE DATABASE "{PG_DB}"')
+    conn.close()
+
+
 def connect():
     dsn = f"host={PG_HOST} port={PG_PORT} dbname={PG_DB} user={PG_USER} password={PG_PASS}"
     return psycopg2.connect(dsn)
@@ -226,6 +237,9 @@ def main():
     zips_dir = os.path.abspath(os.path.expanduser(args.zips_dir))
     if not os.path.isdir(zips_dir):
         raise SystemExit(f"ERROR: directory not found: {zips_dir}")
+
+    # ✅ Ensure DB exists before connecting
+    ensure_database()
 
     conn = connect()
     ensure_schema(conn)
