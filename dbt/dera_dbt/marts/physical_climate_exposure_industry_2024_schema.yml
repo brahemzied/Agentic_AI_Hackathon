@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: physical_climate_exposure_industry_2024
+    description: "Asset-weighted physical climate exposure by industry for 2024. Computes a weighted average of exposure_value using asset_value as the weight."
+    config:
+      materialized: view
+    columns:
+      - name: industry
+        description: "Industry name or code for the asset. Nulls are coalesced to 'UNKNOWN' in the model."
+        tests:
+          - not_null
+      - name: industry_weighted_exposure
+        description: "Asset-weighted average exposure for the industry. Computed as sum(exposure_value * asset_value) / sum(asset_value)."
+        tests:
+          - not_null
+      - name: total_asset_value
+        description: "Sum of asset_value for assets included in the industry aggregation. Assets with NULL asset_value are excluded."
+        tests:
+          - not_null
+      - name: asset_count
+        description: "Count of distinct assets included in the industry aggregation."
+        tests:
+          - not_null
+      - name: sum_exposure_value
+        description: "Sum of raw exposure_value across assets in the industry."
+      - name: sum_weighted_exposure
+        description: "Sum of exposure_value * asset_value for the industry."
+      - name: computation_date
+        description: "Timestamp when the model was computed (dbt run time)."
