@@ -272,5 +272,102 @@
     "definition": "Cash Ratio measures a company’s ability to pay off its short-term liabilities using only its cash and cash equivalents. It is calculated as: Cash Ratio = Cash (cash_usd) / Total Debt (debt_usd). A higher cash ratio indicates stronger liquidity, while very high values may suggest inefficient use of cash resources.",
     "glossary": "Financial KPIs",
     "category": "Liquidity"
-  }
+  },
+  {
+    "label": "Asset Turnover Ratio",
+    "tag": "asset_turnover_ratio",
+    "definition": "Asset Turnover Ratio measures how efficiently a company uses its total assets to generate revenue. It is calculated as: Asset Turnover Ratio = Revenue (revenue_usd) / Total Assets (assets_usd). A higher ratio indicates better utilization of assets to drive sales.",
+    "glossary": "Financial KPIs",
+    "category": "Efficiency"
+  },
+  {
+    "label": "Cash to Assets Ratio",
+    "tag": "cash_to_assets_ratio",
+    "definition": "Cash to Assets Ratio indicates the proportion of a company’s total assets held in the form of cash or cash equivalents. It is calculated as: Cash to Assets Ratio = Cash (cash_usd) / Total Assets (assets_usd). This ratio reflects liquidity and readiness to meet immediate obligations.",
+    "glossary": "Financial KPIs",
+    "category": "Liquidity"
+  },
+  {
+    "label": "Income to Market Cap Ratio",
+    "tag": "income_to_market_cap_ratio",
+    "definition": "Income to Market Cap Ratio compares a company’s net income to its market capitalization, offering a basic proxy for earnings yield. It is calculated as: Income to Market Cap = Net Income (income_usd) / Market Capitalization (market_cap_usd). A higher value may indicate a relatively undervalued firm.",
+    "glossary": "Financial KPIs",
+    "category": "Valuation"
+  },
+  {
+    "label": "Revenue to Assets Ratio",
+    "tag": "revenue_to_assets_ratio",
+    "definition": "Revenue to Assets Ratio measures how much revenue a company generates from its asset base. It is calculated as: Revenue to Assets = Revenue (revenue_usd) / Total Assets (assets_usd). This efficiency metric reflects how well assets are used to drive top-line growth.",
+    "glossary": "Financial KPIs",
+    "category": "Efficiency"
+  },
+  {
+    "label": "Debt to Revenue Ratio",
+    "tag": "debt_to_revenue_ratio",
+    "definition": "Debt to Revenue Ratio shows the amount of debt a company has relative to its annual revenue. It is calculated as: Debt to Revenue = Total Debt (debt_usd) / Revenue (revenue_usd). This metric indicates the financial burden carried by the firm in relation to its ability to generate sales.",
+    "glossary": "Financial KPIs",
+    "category": "Leverage"
+  },
+  {
+    "label": "Relative Profit Margin",
+    "tag": "relative_profit_margin",
+    "definition": "Relative Profit Margin compares a company's Profit Margin to the average Profit Margin of companies within the same industry (based on SIC code) and reporting period. It is calculated as: Relative Profit Margin = Company Profit Margin / Industry Average Profit Margin. A value greater than 1 indicates above-average profitability within the industry.",
+    "glossary": "Financial KPIs",
+    "category": "Benchmarking"
+  },
+  {
+    "label": "Relative Return on Assets (ROA)",
+    "tag": "relative_return_on_assets_roa",
+    "definition": "Relative ROA measures a company's Return on Assets in comparison to the average ROA of its industry peers (based on SIC code). It is calculated as: Relative ROA = Company ROA / Industry Average ROA. This KPI highlights how efficiently a company uses its assets compared to the industry norm.",
+    "glossary": "Financial KPIs",
+    "category": "Benchmarking"
+  },
+  {
+    "label": "Relative Debt Ratio",
+    "tag": "relative_debt_ratio",
+    "definition": "Relative Debt Ratio compares a company's Debt to Assets Ratio with the average ratio of companies in the same industry (based on SIC code). It is calculated as: Relative Debt Ratio = Company Debt Ratio / Industry Average Debt Ratio. Values above 1 may indicate higher financial leverage relative to peers.",
+    "glossary": "Financial KPIs",
+    "category": "Benchmarking"
+  },
+  {
+    "label": "Liquidity Index",
+    "tag": "liquidity_index",
+    "definition": "Liquidity Index assesses a company’s Cash Ratio relative to the average Cash Ratio of its industry (grouped by SIC code and fiscal year). It is calculated as: Liquidity Index = Company Cash Ratio / Industry Average Cash Ratio. This index indicates how the firm's liquidity position compares with its peers.",
+    "glossary": "Financial KPIs",
+    "category": "Benchmarking"
+  },
+  {
+    "label": "Revenue per Unit of Climate Risk",
+    "tag": "revenue_per_climate_risk",
+    "definition": "Revenue per Unit of Climate Risk measures the amount of revenue a company generates for each unit of its climate-related risk. It is calculated as: Revenue (revenue_usd) / Climate Risk (cc_risk_ew). A higher value indicates greater financial efficiency despite climate-related exposures.",
+    "glossary": "ESG-Financial KPIs",
+    "category": "Climate Finance"
+  },
+  {
+    "label": "Market Cap per ESG Opportunity",
+    "tag": "market_cap_per_esg_opportunity",
+    "definition": "This KPI assesses how a company's market capitalization compares to its identified ESG-related opportunities. It is calculated as: Market Capitalization (market_cap_usd) / ESG Opportunity Exposure (op_expo_ew). A lower value may suggest the company is undervalued relative to its ESG opportunity potential.",
+    "glossary": "ESG-Financial KPIs",
+    "category": "Opportunities"
+  },
+  {
+    "label": "Profit Margin per Climate Exposure",
+    "tag": "profit_margin_per_climate_exposure",
+    "definition": "This KPI links financial profitability to climate exposure. It is calculated as: Profit Margin / Climate Exposure (cc_expo_ew), where Profit Margin = Net Income (income_usd) / Revenue (revenue_usd). A higher value reflects greater profitability relative to climate exposure.",
+    "glossary": "ESG-Financial KPIs",
+    "category": "Climate Finance"
+  },
+  {
+    "label": "Cash Resilience to Physical Risk",
+    "tag": "cash_resilience_to_physical_risk",
+    "definition": "Cash Resilience to Physical Risk evaluates a company’s liquidity buffer relative to physical environmental risks. It is calculated as: Cash (cash_usd) / Physical Risk (ph_risk_ew). Higher values indicate better resilience to climate-related physical events.",
+    "glossary": "ESG-Financial KPIs",
+    "category": "Physical Risk"
+  },
+  {
+  "label": "ISIN",
+  "tag": "isin",
+  "definition": "The International Securities Identification Number (ISIN) is a unique 12-character alphanumeric code used to identify securities such as stocks and bonds. It facilitates cross-border trading and is commonly used in data integration for financial instruments. Example format: US0378331005 (Apple Inc.).",
+  "glossary": "Identifiers"
+}
 ]

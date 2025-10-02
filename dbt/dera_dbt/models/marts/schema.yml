@@ -42,49 +42,49 @@ models:
         meta:
           openmetadata:
             displayName: "SIC Code"
-            glossary: ['identifiers.sic']
+            glossary: ['identifiers.sic', 'financial_kpis.relative_debt_ratio', 'financial_kpis.relative_profit_margin', 'financial_kpis.relative_return_on_assets_roa', 'financial_kpis.liquidity_index']
 
       - name: revenue_usd
         description: "Annual revenue expressed in USD."
         meta:
           openmetadata:
             displayName: "Revenue (USD)"
-            glossary: []
+            glossary: ['financial_kpis.market_cap_to_revenue', 'financial_kpis.profit_margin', 'financial_kpis.asset_turnover_ratio', 'financial_kpis.revenue_to_assets_ratio', 'financial_kpis.debt_to_revenue_ratio', 'esg_financial_kpis.revenue_per_climate_risk']
 
       - name: income_usd
         description: "Annual income expressed in USD."
         meta:
           openmetadata:
             displayName: "Income (USD)"
-            glossary: []
+            glossary: ['financial_kpis.profit_margin', 'financial_kpis.return_on_assets_roa', 'financial_kpis.income_to_market_cap_ratio']
 
       - name: market_cap_usd
         description: "Market float value expressed in USD."
         meta:
           openmetadata:
             displayName: "Market Float (USD)"
-            glossary: []
+            glossary: ['financial_kpis.market_cap_to_revenue', 'financial_kpis.income_to_market_cap_ratio', 'esg_financial_kpis.market_cap_per_esg_opportunity']
 
       - name: debt_usd
         description: "Total debt expressed in USD."
         meta:
           openmetadata:
             displayName: "Debt (USD)"
-            glossary: ['financial_kpis.cash_ratio', 'financial_kpis.debt_to_assets_ratio']
+            glossary: ['financial_kpis.cash_ratio', 'financial_kpis.debt_to_assets_ratio', 'financial_kpis.debt_to_revenue_ratio']
 
       - name: cash_usd
         description: "Cash and cash equivalents expressed in USD."
         meta:
           openmetadata:
             displayName: "Cash (USD)"
-            glossary: ['financial_kpis.cash_ratio']
+            glossary: ['financial_kpis.cash_ratio', 'financial_kpis.cash_to_assets_ratio', 'esg_financial_kpis.cash_resilience_to_physical_risk']
 
       - name: assets_usd
         description: "Total assets expressed in USD."
         meta:
           openmetadata:
             displayName: "Assets (USD)"
-            glossary: ['financial_kpis.debt_to_assets_ratio']
+            glossary: ['financial_kpis.debt_to_assets_ratio', 'financial_kpis.return_on_assets_roa', 'financial_kpis.asset_turnover_ratio', 'financial_kpis.cash_to_assets_ratio', 'financial_kpis.revenue_to_assets_ratio']
 
   - name: float
     description: "Provides the latest available public float value for each company based on LEI. Selects the most recent float value from int_float_inferred and stg_dera_sub."
