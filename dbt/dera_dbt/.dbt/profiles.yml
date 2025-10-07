@@ -12,6 +12,19 @@ dera_dbt:
       schema: "analytics"
       threads: 4
 
+dera_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgres
+      user: dbt
+      password: dbt
+      port: 5432
+      dbname: dera
+      schema: analytics
+      threads: 4
+
     # ---- OPTIONAL: BigQuery target (for later) ----
     # bq_dev:
     #   type: bigquery
