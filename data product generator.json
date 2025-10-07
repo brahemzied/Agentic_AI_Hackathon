@@ -1,0 +1,419 @@
+{
+  "name": "data product generator",
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.session_id}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        512,
+        208
+      ],
+      "id": "a6d3eaa4-ce29-4d2d-bfad-0ed3f54909f8",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are the Postgres SQL Agent.\n\nGoal:\n1. Receive a validated KPI request plus the list of available source tables/columns.\n2. Produce a single Postgres conform SQL SELECT statement that implements the KPI logic as a view.\n3. The SQL must be ANSI-SQL compatible with POSTGRES and suitable to save as a dbt model file.\n4. Wrap the query with a dbt Jinja config block:\n   {{ config(materialized='view') }}\n5. Return JSON only:\n   {\n     \"modelName\": \"snake_case_view_name\",\n     \"sql\": \"the full SQL/Jinja code as a string\"\n   }\n\nRules:\n- make sure the modelname is shorter than 50 characters.\n- do not reference the database name (dera_postgres) in your from statements.\n- do not end the sql query with a semicolon.\n- Never execute code or query the database.\n- Do not include any narrative explanation outside the JSON.\n- Assume that listed source tables already exist and are accessible in the warehouse.\n- “Return a single JSON object with keys modelName and sql. Do not add explanations or code fences.”\n"
+        }
+      },
+      "id": "b1d5e1a7-aa22-4637-af74-d6b01a16f2f1",
+      "name": "SQL Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1072,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "=you are the validator agent. \nyou interpret the user prompt and check in the OM MCP tool what data objects you can use to build the requested view.\nyou provide as output the tables and column names needed to create the requested view in order for the next agent to be able to create a SQL query.\n\n\nRules:\n-do not specify the connection name. just the database, schema, tables and columns"
+        }
+      },
+      "id": "f291610d-8eee-4caa-a46b-fce714d8a1fe",
+      "name": "Validator Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        528,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "3aa1f0d0-24cd-401f-b2a6-89d20e505764",
+      "name": "OpenAI Model1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        976,
+        304
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "FuA4sQ2CjDhMpBUC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.session_id}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1120,
+        304
+      ],
+      "id": "21ac234e-931e-48b6-b9f8-65db7ed602e0",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "command": "=#!/bin/sh\nset -eux\n\nPROJ=\"/workspace/dbt/dera_dbt\"\nNAME=\"asset_weighted_phys_climate_exposure_view\"\n\ncd \"$PROJ\"\n# 1) Overwrite the model WITHOUT any {% raw %} block\ncat > \"models/$NAME.sql\" <<'SQL'\n\n\n{{'{' + '{' +  \"config(materialized='view')\" + '}' + '}'}}\nWITH exposure_data AS (\n    SELECT e.cik,\n           e.ph_expo_ew,\n           f.sic,\n           f.assets\n    FROM dera.analytics_stg.stg_esg_risk_factors e\n    JOIN dera.analytics.assets_usd f ON e.cik = f.cik\n    WHERE e.ph_expo_ew IS NOT NULL\n      AND f.assets > 0\n)\nSELECT sic AS industry_code,\n       SUM(ph_expo_ew * assets) / NULLIF(SUM(assets), 0) AS asset_weighted_physical_climate_change_exposure,\n       COUNT(DISTINCT cik) AS firm_count\nFROM exposure_data\nGROUP BY sic\nSQL\n\n\n\n# 3) Compile (no SQL executed on the DB)\ndbt compile --profiles-dir ./.dbt --select \"$NAME\" -x\n\n\n\n# 3) Compile (no SQL executed on the DB)\ndbt compile --profiles-dir ./.dbt --select \"$NAME\" -x\n\n\n\n\ndbt run \\\n  --profiles-dir ./.dbt \\\n  --select \"$NAME\" \\\n\n dbt docs generate \\\n  --profiles-dir ./.dbt \\\n  --select \"$NAME\" \\\n\nmetadata ingest -c postgres_ingestion.yml\nmetadata ingest-dbt\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        -224
+      ],
+      "id": "dbe4a447-4be1-4ffd-b569-174cb8ad89b6",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "http://openmetadata-server:8585/mcp",
+        "serverTransport": "httpStreamable",
+        "authentication": "bearerAuth",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        256
+      ],
+      "id": "625e71b5-dfce-44b3-9900-727febbf37eb",
+      "name": "OM MCP",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "KxZRLay4UT37qQ46",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -208,
+        160
+      ],
+      "id": "2dd9f410-9609-4076-b7d1-cda3f8fff043",
+      "name": "When chat message received",
+      "webhookId": "0135f862-fa6e-4bfa-a33d-d0375f438172"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        208
+      ],
+      "id": "e7bda820-5a70-4fb6-a8e3-ad0bb2c63bc5",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "FuA4sQ2CjDhMpBUC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n     \"modelName\": \"snake_case_view_name\",\n     \"sql\": \"the full SQL/Jinja code as a string\"\n   }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1280,
+        240
+      ],
+      "id": "f6aac244-80cc-4fad-8867-1b59ae9ebec2",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "9f3d4b86-0647-4014-bd15-cc993088f23a",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        64,
+        -192
+      ],
+      "id": "dbe63a75-ec4f-4c38-ac94-22a7d1d0c28a",
+      "name": "Webhook",
+      "webhookId": "9f3d4b86-0647-4014-bd15-cc993088f23a"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"response\": \"the requested view was successfully created, you can view it in OpenMetadata via this link: http://localhost:8585/table/dera-postgres.dera.analytics.asset_weighted_phys_climate_exposure_view\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1760,
+        -208
+      ],
+      "id": "e2a166d5-5960-4604-80f6-9c2d30486d91",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1b6c6805-a3d5-4074-8573-2a3bbc3bb51c",
+              "name": "session_id",
+              "value": "={{ Math.floor(Math.random() * 3_000_000)}}",
+              "type": "string"
+            },
+            {
+              "id": "11f2a0e7-c435-44f1-b76e-72ca019c3502",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        -128
+      ],
+      "id": "fd3c937d-8913-4d76-927d-9fac41acfc75",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1b6c6805-a3d5-4074-8573-2a3bbc3bb51c",
+              "name": "session_id",
+              "value": "={{ Math.floor(Math.random() * 3_000_000)}}",
+              "type": "string"
+            },
+            {
+              "id": "11f2a0e7-c435-44f1-b76e-72ca019c3502",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        864,
+        160
+      ],
+      "id": "edfc4daf-1dc2-483a-9fae-7983e8f93da9",
+      "name": "Edit Fields1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Validator Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SQL Agent": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validator Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "SQL Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "SQL Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OM MCP": {
+      "ai_tool": [
+        [
+          {
+            "node": "Validator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Validator Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "SQL Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Validator Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "SQL Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c3c6f99a-1920-42d8-99f9-e04ea6b30d3b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6ff66559a8253fe8b5758e7dd1bf1ba9f0926be6a93b0b1faed12bd011a5ce40"
+  },
+  "id": "bVvpZFx9gbB9T3uB",
+  "tags": []
+}
